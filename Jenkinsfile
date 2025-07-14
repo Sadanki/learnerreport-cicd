@@ -9,12 +9,12 @@ pipeline {
     }
 
     stages {
-        // Remove Checkout stage completely
-
         stage('Build Docker Image') {
             steps {
                 echo '🐳 Building Docker image...'
-                sh 'docker build -t $IMAGE_NAME:latest .'
+                dir('learnerReportCS_backend') {
+                    sh 'docker build -t $IMAGE_NAME:latest .'
+                }
             }
         }
 
