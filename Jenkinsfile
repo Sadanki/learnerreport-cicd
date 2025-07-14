@@ -1,10 +1,6 @@
 pipeline {
     agent any
 
-    environment {
-        DOCKERHUB_CREDENTIALS = credentials('dockerhub-credentials') // Update with your Jenkins credentials ID
-    }
-
     stages {
         stage('Build Docker Image') {
             steps {
