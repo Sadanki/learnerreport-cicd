@@ -2,10 +2,7 @@ pipeline {
     agent any
 
     environment {
-        DOCKERHUB_USERNAME = 'vignesh342'
-        IMAGE_NAME = "${DOCKERHUB_USERNAME}/learnerreport-backend"
-        HELM_RELEASE_NAME = "learnerreport"
-        HELM_CHART_DIR = "./helm-chart"
+        DOCKERHUB_CREDENTIALS = credentials('dockerhub-credentials') // Update with your Jenkins credentials ID
     }
 
     stages {
@@ -13,7 +10,7 @@ pipeline {
             steps {
                 echo '🐳 Building Docker image...'
                 dir('learnerReportCS_backend') {
-                    sh 'docker build -t $IMAGE_NAME:latest .'
+                    sh 'docker build -t vignesh342/learnerreport-backend:latest .'
                 }
             }
         }
@@ -21,23 +18,22 @@ pipeline {
         stage('Push to DockerHub') {
             steps {
                 echo '📤 Pushing to DockerHub...'
-                withDockerRegistry([url: '', credentialsId: 'dockerhub-vignesh']) {
-                    sh 'docker push $IMAGE_NAME:latest'
+                withDockerRegistry([credentialsId: 'dockerhub-credentials', url: 'https://index.docker.io/v1/']) {
+                    sh 'docker push vignesh342/learnerreport-backend:latest'
                 }
             }
         }
 
         stage('Deploy with Helm') {
             steps {
-                echo '🚀 Deploying to Kubernetes via Helm...'
-                sh 'helm upgrade --install $HELM_RELEASE_NAME $HELM_CHART_DIR'
+                echo '🚀 Skipping Helm deployment – local Kubernetes not accessible from Jenkins EC2.'
             }
         }
     }
 
     post {
         success {
-            echo '✅ Deployment successful!'
+            echo '✅ Build and push successful!'
         }
         failure {
             echo '❌ Build or deployment failed. Please check logs.'
