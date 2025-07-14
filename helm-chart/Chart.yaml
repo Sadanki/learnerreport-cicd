@@ -1,0 +1,4 @@
+apiVersion: v2
+name: learnerreport
+description: A Helm chart for MERN app
+version: 0.1.0

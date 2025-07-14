@@ -1,0 +1,8 @@
+frontend:
+  image: vignesh342/learnerreport-frontend:latest   # ✅ UPDATE HERE
+  replicas: 2
+
+backend:
+  image: vignesh342/learnerreport-backend:latest
+  replicas: 2
+  mongoUrl: mongodb://mongo:27017/learnerReports   # ✅ UPDATE this line
