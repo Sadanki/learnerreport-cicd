@@ -1,0 +1,19 @@
+version: '3'
+services:
+  mongo:
+    image: mongo
+    container_name: mongo
+    ports:
+      - "27017:27017"
+
+  backend:
+    image: vignesh342/learnerreport-backend:latest
+    container_name: backend
+    ports:
+      - "3001:3000"
+    depends_on:
+      - mongo
+    environment:
+      - MONGO_URL=mongodb://mongo:27017/learnerReports
+      - HASH_KEY=thisIsMyHashKey
+      - JWT_SECRET_KEY=thisIsMyJwtSecretKey
