@@ -18,7 +18,7 @@ pipeline {
         stage('Push to DockerHub') {
             steps {
                 echo '📤 Pushing to DockerHub...'
-                withDockerRegistry([credentialsId: 'dockerhub-credentials', url: 'https://index.docker.io/v1/']) {
+                withDockerRegistry([credentialsId: 'dockerhub-vignesh', url: 'https://index.docker.io/v1/']) {
                     sh 'docker push vignesh342/learnerreport-backend:latest'
                 }
             }
